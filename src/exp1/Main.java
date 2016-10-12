@@ -6,9 +6,6 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Vector;
 
-// Node : 保存每一个项
-// Node.d 系数
-// Node.str 未知数 ： string
 class Node {
 	String str;
 	int d;
