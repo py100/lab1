@@ -1,4 +1,4 @@
-package indi.exp1;
+package exp1;
 
 import java.util.ArrayList;
 
