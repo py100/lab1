@@ -104,4 +104,30 @@ public class Node {
       System.out.print("*" + pchar + "^" + cnt);
     }
   }
+  public String tostr1() {
+	StringBuilder sb = new StringBuilder();
+	sb.append(var);
+    char pchar = '\0';
+    int cnt = 0;
+    for (int i = 0; i < str.length(); i++) {
+      if (str.charAt(i) != pchar) {
+        if (cnt == 1) {
+          sb.append("*"+pchar);
+        } else if (cnt > 1) {
+          sb.append("*"+pchar+"^"+cnt);
+        }
+        pchar = str.charAt(i);
+        cnt = 1;
+      } else {
+        cnt++;
+      }
+    }
+    if (cnt == 1) {
+      sb.append("*"+pchar);
+    } else if (cnt > 1) {
+      sb.append("*"+pchar+"^"+cnt);
+    }
+    return sb.toString();
+  }
+
 }

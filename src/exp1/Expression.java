@@ -14,7 +14,7 @@ public class Expression {
     return ch >= '0' && ch <= '9';
   }
   
-  boolean init(String str) {
+  public boolean init(String str) {
     str = str.replace(" ", "");
     // empty string
     if (str.length() < 1) {
@@ -114,7 +114,7 @@ public class Expression {
     return true;
   }
 
-  void show() {
+  public void show() {
     for (int i = 0; i < an.size(); i++) {
       if (i != 0 && an.get(i).var >= 0) {
         System.out.print("+");
@@ -128,13 +128,13 @@ public class Expression {
     System.out.println();
   }
 
-  void adjust() {
+  public void adjust() {
     for (int i = 0; i < an.size(); i++) {
       an.get(i).adjust();
     }
   }
 
-  void merge() {
+  public void merge() {
     ArrayList<Node> atmp = new ArrayList<Node>();
     Node nd1;
     Node nd2;
@@ -155,7 +155,7 @@ public class Expression {
     an = atmp;
   }
 
-  void simplify(char ch, int dig) {
+  public void simplify(char ch, int dig) {
     ArrayList<Node> tmp = new ArrayList<Node>();
     for (int i = 0; i < an.size(); i++) {
       tmp.add(an.get(i).simplify(ch, dig));
@@ -170,4 +170,19 @@ public class Expression {
     }
     an = tmp;
   }
+  public String tostr() {
+	StringBuilder sb = new StringBuilder();
+    for (int i = 0; i < an.size(); i++) {
+      if (i != 0 && an.get(i).var >= 0) {
+    	sb.append("+");
+      }
+      sb.append(an.get(i).tostr1());
+    }
+
+    if (an.size() == 0) {
+      sb.append("0");
+    }
+    return sb.toString();
+  }
+
 }
