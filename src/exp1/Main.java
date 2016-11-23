@@ -18,9 +18,10 @@ public class Main {
 		while (cin.hasNext()) {
 			cmd = cin.nextLine();
 			ctrler.initCmd(cmd);
-			ctrler.excuteCmd();
-			result = ctrler.output();
+			result = ctrler.excuteCmd();
 			System.out.println(result);
+			if (result.compareTo("Input error!!") == 0) 
+				System.exit(0);
 		}
 		System.exit(0);
 	}
