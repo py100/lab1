@@ -10,7 +10,7 @@ public class Main {
   private static Scanner cin;
 
   public static void main(String[] args) throws FileNotFoundException {
-    FileInputStream fis = new FileInputStream("out11.txt");
+    FileInputStream fis = new FileInputStream("in1.txt");
     System.setIn(fis);
     cin = new Scanner(System.in);
     String cmd;
@@ -69,7 +69,7 @@ public class Main {
         ex.show();
       } else {      // get expression
         if (!ex.init(cmd)) {
-          System.out.println("Input Error!!");
+          System.out.println("Input Error!!dddd");
           System.exit(0);
           //continue;
         }
