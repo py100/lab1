@@ -79,8 +79,6 @@ public class Node {
     }
   }
 
-  // *TODO*
-  // change plain syso to String
   void showNode1() {
     System.out.print(var);
     char pchar = '\0';
