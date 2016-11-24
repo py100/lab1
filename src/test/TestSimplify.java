@@ -2,24 +2,27 @@ package test;
 
 import static org.junit.Assert.*;
 
-import java.io.FileReader;
-import java.io.IOException;
-
+import org.junit.Before;
 import org.junit.Test;
-
-import com.opencsv.CSVReader;
 
 import exp1.Expression;
 import exp1.Control;
+
 public class TestSimplify {
 
 	Expression ex;
 	Control con;
 
+	@Before
+	public void init() {
+		con = new Control();
+	}
+
 	@Test
 	public void test1() {
 		ex = new Expression();
 		con.init("y*y");
+		ex.setAn(con.an);
 		ex.simplify('y', 2);
 		ex.merge();
 		System.out.println(ex.tostr());
@@ -27,10 +30,12 @@ public class TestSimplify {
 			fail("Wrong Answer");
 		}
 	}
+
 	@Test
 	public void test2() {
 		ex = new Expression();
 		con.init("x*x");
+		ex.setAn(con.an);
 		ex.simplify('y', 2);
 		ex.merge();
 		System.out.println(ex.tostr());
@@ -38,10 +43,12 @@ public class TestSimplify {
 			fail("Wrong Answer");
 		}
 	}
+
 	@Test
 	public void test3() {
 		ex = new Expression();
 		con.init("x+y*y");
+		ex.setAn(con.an);
 		ex.simplify('y', 2);
 		ex.merge();
 		System.out.println(ex.tostr());
@@ -49,10 +56,12 @@ public class TestSimplify {
 			fail("Wrong Answer");
 		}
 	}
+
 	@Test
 	public void test4() {
 		ex = new Expression();
 		con.init("5");
+		ex.setAn(con.an);
 		ex.simplify('y', 2);
 		ex.merge();
 		System.out.println(ex.tostr());
@@ -60,10 +69,12 @@ public class TestSimplify {
 			fail("Wrong Answer");
 		}
 	}
+
 	@Test
 	public void test5() {
 		ex = new Expression();
 		con.init("x+x*x+x*x*x*y");
+		ex.setAn(con.an);
 		ex.simplify('x', 2);
 		ex.merge();
 		System.out.println(ex.tostr());

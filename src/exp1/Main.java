@@ -20,7 +20,7 @@ public class Main {
 			bound.initCmd(cmd);
 			result = bound.excuteCmd();
 			System.out.println(result);
-			if (result.compareTo("Input error!!") == 0) 
+			if (result.compareTo("Input error!!") == 0)
 				System.exit(0);
 		}
 		System.exit(0);

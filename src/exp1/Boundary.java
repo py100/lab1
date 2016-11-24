@@ -4,6 +4,13 @@ public class Boundary {
 	public Expression exp;
 	public String cmd;
 	public Control con;
+
+	public Boundary() {
+		super();
+		this.con = new Control();
+		this.exp = new Expression();
+	}
+
 	public String output() {
 		if (exp == null) {
 			System.err.println("empty expression");
@@ -78,13 +85,14 @@ public class Boundary {
 			}
 			exp.show();
 		} else { // get expression
-			if (exp == null)
-				exp = new Expression();
+			System.out.println(cmd);
 			if (!con.init(cmd)) {
+				System.out.println("!!!");
 				System.err.println("Input Error!!dddd");
 				return "Input error!!";
 				// continue;
 			}
+			exp.an = con.an;
 			exp.adjust();
 			exp.merge();
 			exp.show();
