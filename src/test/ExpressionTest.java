@@ -4,19 +4,19 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
-import exp1.Control;
+import exp1.Boundary;
 
 public class ExpressionTest {
-	Control ctrler;
+	Boundary bound;
 
 	String excuteResult(String str) {
-		ctrler.initCmd(str);
-		return ctrler.excuteCmd();
+		bound.initCmd(str);
+		return bound.excuteCmd();
 	}
 	
 	@Before
 	public void init(){
-		ctrler = new Control();
+		bound = new Boundary();
 	}
 
 	@Test

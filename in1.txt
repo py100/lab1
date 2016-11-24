@@ -1,5 +1,1 @@
-xx*yy
-!d/dx
-!simplify y=5
-!d/dx
-!d/dx
+&*3

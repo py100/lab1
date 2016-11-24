@@ -12,13 +12,13 @@ public class Main {
 		System.setIn(fis);
 		cin = new Scanner(System.in);
 
-		Control ctrler = new Control();
+		Boundary bound = new Boundary();
 		String cmd;
 		String result;
 		while (cin.hasNext()) {
 			cmd = cin.nextLine();
-			ctrler.initCmd(cmd);
-			result = ctrler.excuteCmd();
+			bound.initCmd(cmd);
+			result = bound.excuteCmd();
 			System.out.println(result);
 			if (result.compareTo("Input error!!") == 0) 
 				System.exit(0);
