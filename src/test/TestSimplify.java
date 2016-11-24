@@ -2,24 +2,27 @@ package test;
 
 import static org.junit.Assert.*;
 
-import java.io.FileReader;
-import java.io.IOException;
-
+import org.junit.Before;
 import org.junit.Test;
 
-import com.opencsv.CSVReader;
-
 import exp1.Expression;
+import exp1.Control;
 
 public class TestSimplify {
 
 	Expression ex;
-	
+	Control con;
+
+	@Before
+	public void init() {
+		con = new Control();
+	}
 
 	@Test
 	public void test1() {
 		ex = new Expression();
-		ex.init("y*y");
+		con.init("y*y");
+		ex.setAn(con.an);
 		ex.simplify('y', 2);
 		ex.merge();
 		System.out.println(ex.tostr());
@@ -27,10 +30,12 @@ public class TestSimplify {
 			fail("Wrong Answer");
 		}
 	}
+
 	@Test
 	public void test2() {
 		ex = new Expression();
-		ex.init("x*x");
+		con.init("x*x");
+		ex.setAn(con.an);
 		ex.simplify('y', 2);
 		ex.merge();
 		System.out.println(ex.tostr());
@@ -38,10 +43,12 @@ public class TestSimplify {
 			fail("Wrong Answer");
 		}
 	}
+
 	@Test
 	public void test3() {
 		ex = new Expression();
-		ex.init("x+y*y");
+		con.init("x+y*y");
+		ex.setAn(con.an);
 		ex.simplify('y', 2);
 		ex.merge();
 		System.out.println(ex.tostr());
@@ -49,10 +56,12 @@ public class TestSimplify {
 			fail("Wrong Answer");
 		}
 	}
+
 	@Test
 	public void test4() {
 		ex = new Expression();
-		ex.init("5");
+		con.init("5");
+		ex.setAn(con.an);
 		ex.simplify('y', 2);
 		ex.merge();
 		System.out.println(ex.tostr());
@@ -60,10 +69,12 @@ public class TestSimplify {
 			fail("Wrong Answer");
 		}
 	}
+
 	@Test
 	public void test5() {
 		ex = new Expression();
-		ex.init("x+x*x+x*x*x*y");
+		con.init("x+x*x+x*x*x*y");
+		ex.setAn(con.an);
 		ex.simplify('x', 2);
 		ex.merge();
 		System.out.println(ex.tostr());
@@ -72,29 +83,3 @@ public class TestSimplify {
 		}
 	}
 }
-/*@Test
-public void test() throws IOException {
-	CSVReader cin = new CSVReader(new FileReader("input.csv"));
-
-	Expression ex = new Expression();
-
-	String[] nextLine;
-	while ((nextLine = cin.readNext()) != null) {
-		// nextLine[] is an array of values from the line
-		int n = nextLine.length;
-		ex.init(nextLine[0]);
-
-		for (int i = 1; i < n - 1; i++) {
-			String[] tmp = nextLine[i].split("=");
-			ex.simplify(tmp[0].charAt(0), Integer.valueOf(tmp[1]));
-		}
-		ex.merge();
-
-		System.out.println(ex.tostr());
-		System.out.println(nextLine[n - 1]);
-		if (ex.tostr().compareTo(nextLine[n - 1]) != 0) {
-			fail("Wrong Answer");
-		}
-	}
-	cin.close();
-}*/

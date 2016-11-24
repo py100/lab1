@@ -1,96 +1,116 @@
 package exp1;
 
+import java.util.ArrayList;
+
 public class Control {
-	public Expression exp;
-	public String cmd;
 
-	public String output() {
-		if (exp == null) {
-			System.err.println("empty expression");
-			return null;
-		} else {
-			return exp.tostr();
-		}
+	public ArrayList<Node> an;
+
+	boolean isch(char ch) {
+		return ch >= 'a' && ch <= 'z';
 	}
 
-	public void initCmd(String str) {
-		cmd = str.toLowerCase();
+	boolean isdig(char ch) {
+		return ch >= '0' && ch <= '9';
 	}
 
-	public String excuteCmd() {
-		if (cmd == null) {
-			System.err.println("empty command");
-			return "Input error!!";
+	public boolean init(String str) {
+		str = str.replace(" ", "");
+		// empty string
+		if (str.length() < 1) {
+			return false;
 		}
 
-		if (exp == null && cmd.charAt(0) == '!') {
-			System.err.println("empty expression");
-			return "Input error!!";
-		}
-		if (cmd.charAt(0) == '!') {
-			// simplify
-			if (cmd.charAt(1) == 's') {
-				String[] tmp = cmd.split("\\s");
-
-				if (!tmp[0].equals("!simplify")) {
-					System.err.println("Input Error!!\nNo such operation!!");
-					return "Input error!!";
-					// continue;
+		for (int i = 0; i < str.length(); i++) {
+			// System.out.println(i+"  "+str.charAt(i));
+			if (str.charAt(i) == '^') {
+				if (i == 0) {
+					return false;
 				}
-				tmp = tmp[1].split(",");
-				for (int i = 0; i < tmp.length; i++) {
-					tmp[i] = tmp[i].replace(" ", "");
-					String[] tosimp = tmp[i].split("=");
-					if (tosimp.length != 2
-							|| tosimp[0].length() != 1
-							|| (!(tosimp[0].charAt(0) >= 'a' && tosimp[0]
-									.charAt(0) <= 'z'))) {
-						System.err
-								.println("Input Error!!\nNo such operation!!");
-						return "Input error!!";
+				if (!isch(str.charAt(i - 1))) {
+					return false;
+				}
+				if (i + 1 >= str.length()) {
+					return false;
+				}
+				if (!isdig(str.charAt(i + 1))) {
+					return false;
+				}
+			} else if (str.charAt(i) == '+' || str.charAt(i) == '-') {
+				if (i - 1 >= 0 && !isch(str.charAt(i - 1))
+						&& !isdig(str.charAt(i - 1))) {
+					return false;
+				}
+				if (i + 1 >= str.length()) {
+					return false;
+				}
+				if (!isch(str.charAt(i + 1)) && !isdig(str.charAt(i + 1))) {
+					return false;
+				}
+			} else if (str.charAt(i) == '*') {
+				if (i - 1 < 0 || i + 1 >= str.length()) {
+					return false;
+				}
+				if (!isch(str.charAt(i - 1)) && !isdig(str.charAt(i - 1))) {
+					return false;
+				}
+				if (!isch(str.charAt(i + 1)) && !isdig(str.charAt(i + 1))) {
+					return false;
+				}
+			} else if (isch(str.charAt(i))) {
+				if (i - 1 >= 0) {
+					char ch = str.charAt(i - 1);
+					if (ch != '+' && ch != '-' && ch != '*' && ch != '^') {
+						return false;
 					}
-					char tmpchar = tosimp[0].charAt(0);
-					int dig = 1;
-					try {
-						dig = Integer.parseInt(tosimp[1]);
-					} catch (Exception err) {
-						System.err.println("Input Error");
-						return "Input error!!";
+				}
+				if (i + 1 < str.length()) {
+					char ch = str.charAt(i + 1);
+					if (ch != '+' && ch != '-' && ch != '*' && ch != '^') {
+						return false;
 					}
-					exp.simplify(tmpchar, dig);
-					exp.merge();
 				}
-			} else if (cmd.charAt(1) == 'd') { // d/dy
-				if (cmd.length() != 5 || !cmd.substring(1, 4).equals("d/d")) {
-					System.err.println("Input Error!!\nNo such operation!!");
-					return "Input error!!";
+			} else if (isdig(str.charAt(i))) {
+				if (i - 1 >= 0 && isch(str.charAt(i - 1))) {
+					return false;
 				}
-				char cmdchar = cmd.charAt(4);
-				if (!(cmdchar >= 'a' && cmdchar <= 'z')) {
-					System.err.println("Input Error!!\nNo such operation!!");
-					return "Input error!!";
-				}
-				exp.deri(cmdchar);
-				exp.merge();
 			} else {
-				System.err.println("Input Error!!\nNo such operation!!");
-				return "Input error!!";
+				return false;
 			}
-			exp.show();
-		} else { // get expression
-			if (exp == null)
-				exp = new Expression();
-			if (!exp.init(cmd)) {
-				System.err.println("Input Error!!dddd");
-				return "Input error!!";
-				// continue;
-			}
-			exp.adjust();
-			// ex.show();
-			exp.merge();
-			exp.show();
 		}
 
-		return exp.tostr();
+		StringBuilder sb = new StringBuilder();
+		for (int i = 0; i < str.length(); i++) {
+			if (str.charAt(i) == '-') {
+				sb.append('+');
+				sb.append(str.charAt(i));
+			} else if (str.charAt(i) == '^') {
+				StringBuilder sbb = new StringBuilder();
+				for (int j = i + 1; j < str.length(); j++) {
+					char ch = str.charAt(j);
+					if (ch >= '0' && ch <= '9') {
+						sbb.append(ch);
+						i++;
+					} else {
+						break;
+					}
+				}
+				int num = Integer.valueOf(sbb.toString());
+				char ch = sb.charAt(sb.length() - 1);
+				for (int j = 1; j < num; j++) {
+					sb.append('*');
+					sb.append(ch);
+				}
+			} else {
+				sb.append(str.charAt(i));
+			}
+		}
+		str = sb.toString();
+		an = new ArrayList<Node>();
+		String[] tmp = str.split("\\+");
+		for (int i = 0; i < tmp.length; i++) {
+			an.add(new Node(tmp[i]));
+		}
+		return true;
 	}
 }
