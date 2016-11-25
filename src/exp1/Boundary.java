@@ -83,7 +83,6 @@ public class Boundary {
 				System.err.println("Input Error!!\nNo such operation!!");
 				return "Input error!!";
 			}
-			exp.show();
 		} else { // get expression
 			System.out.println(cmd);
 			if (!con.init(cmd)) {
@@ -95,7 +94,6 @@ public class Boundary {
 			exp.an = con.an;
 			exp.adjust();
 			exp.merge();
-			exp.show();
 		}
 
 		return exp.tostr();
